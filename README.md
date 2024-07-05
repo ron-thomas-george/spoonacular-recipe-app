@@ -1,1 +1,1 @@
-Exploring Full-stack development using Spoonacular API
+Exploring Full-Stack development using Spoonacular API
