@@ -2,13 +2,16 @@ import { Recipe } from "../types";
 
 interface Props {
   recipe: Recipe;
+  onClick: () => void;
 }
 
-const RecipeCard = ({ recipe }: Props) => {
+const RecipeCard = ({ recipe, onClick }: Props) => {
   return (
     <>
-      <img src={recipe.image}></img>
-      <h3>{recipe.title}</h3>
+      <div onClick={onClick}>
+        <img src={recipe.image}></img>
+        <h3>{recipe.title}</h3>
+      </div>
     </>
   );
 };

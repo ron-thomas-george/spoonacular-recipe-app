@@ -1,11 +1,15 @@
 import { FormEvent, useRef, useState } from "react";
 import "./App.css";
-import searchRecipes from "./API";
 import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
+import { searchRecipes } from "./API";
+import RecipeModal from "./components/RecipeModal";
 function App() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(
+    undefined
+  );
 
   const pageNumber = useRef(0);
 
@@ -28,6 +32,10 @@ function App() {
       pageNumber.current = nextPage;
     } catch (error) {}
   };
+
+  const handleRecipeClick = (recipe: Recipe) => {
+    setSelectedRecipe(recipe);
+  };
   return (
     <>
       <form onSubmit={handleSearchSubmit}>
@@ -41,9 +49,21 @@ function App() {
         <button type="submit">Submit</button>
       </form>
       {recipes.map((recipe: Recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} />
+        <RecipeCard
+          key={recipe.id}
+          recipe={recipe}
+          onClick={() => handleRecipeClick(recipe)}
+        />
       ))}
       <button onClick={handleViewMoreClick}>View More</button>
+      <div>
+        {selectedRecipe && (
+          <RecipeModal
+            recipeId={selectedRecipe.id.toString()}
+            onClose={() => setSelectedRecipe(undefined)}
+          />
+        )}
+      </div>
     </>
   );
 }
